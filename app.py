@@ -86,7 +86,7 @@ if st.session_state["form_submitted"]:
         response = st.session_state.qa_chain.invoke(user_input)
         bot_msg = response["result"]
     else:
-        bot_msg = "Out of my scope, Please ask relevant questions."
+        bot_msg = "❌ Out of my scope, Please ask relevant questions."
 
     st.session_state.messages.append({'role': 'bot', 'text': bot_msg})
     st.session_state["form_submitted"] = False  # Reset for next form
