@@ -7,7 +7,6 @@ from langchain.text_splitter import CharacterTextSplitter
 from langchain.chains import RetrievalQA
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain.prompts import PromptTemplate
-import google.generativeai as genai
 
 # API setup
 api_key = st.secrets["GEMINI_API_KEY"]
