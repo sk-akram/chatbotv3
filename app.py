@@ -57,7 +57,7 @@ if st.session_state["pdf_uploaded"] and not st.session_state["pdf_processed"]:
     if st.button("🔍 Process PDF"):
         loader = PyPDFLoader("temp.pdf")
         documents = loader.load()
-        splitter = CharacterTextSplitter(chunk_size=100, chunk_overlap=20)
+        splitter = CharacterTextSplitter(chunk_size=500, chunk_overlap=100)
         chunks = splitter.split_documents(documents)
 
         embeddings = GoogleGenerativeAIEmbeddings(
