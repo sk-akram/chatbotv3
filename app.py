@@ -14,7 +14,7 @@ GEMINI_API_KEY = st.secrets["GEMINI_API_KEY"]
 llm = ChatGoogleGenerativeAI(
     model="gemini-2.0-flash",
     api_key=GEMINI_API_KEY,
-    temperature=0.5
+    temperature=0.7
 )
 
 # --- Page setup ---
