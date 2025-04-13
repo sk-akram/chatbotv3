@@ -28,19 +28,28 @@ for key in ["messages", "conversation_chain", "pdf_uploaded", "pdf_processed"]:
         st.session_state[key] = [] if key == "messages" else False
 
 # --- Prompt Template ---
+# --- Prompt Template ---
 answer_prompt = PromptTemplate(
-    input_variables=["question", "context"],
+    input_variables=["question", "context", "chat_history"],
     template="""
 You are an intelligent assistant helping users with document-based queries.
 
-Context:
+Chat History:
+{chat_history}
+
+Context from the uploaded document:
 {context}
 
-User's Question: {question}
+User's Current Question: {question}
 
-Based on the context above, provide a relevant, factual, and concise answer. If no relevant information is available, respond with: ❌ Out of scope. Please ask a question related to the content of the document.
+Instructions:
+1. Check if the question relates to either the previous conversation or the context from the document.
+2. If it does, answer it in a relevant, factual, and concise manner.
+3. If it is completely unrelated to both the chat history and the document context, respond with:
+   ❌ Out of scope. Please ask a question related to the content of the document or our current conversation.
 """
 )
+
 
 # --- PDF Upload ---
 pdf_file = st.file_uploader("📄 Upload PDF", type="pdf")
@@ -87,7 +96,8 @@ with st.form("chat_form", clear_on_submit=True):
 if send and user_input.strip():
     chain = st.session_state.conversation_chain
     if chain:
-        result = chain.invoke({"question": user_input})
+        result = chain.invoke({"question": user_input,"chat_history": chain.memory.chat_memory.messages
+})
         bot_reply = result["answer"]
 
         st.session_state.messages.append({"role": "user", "text": user_input})
